@@ -1,0 +1,40 @@
+---
+# Source: pub/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gonuts-pub
+  labels:
+    app.kubernetes.io/name: pub
+    helm.sh/chart: pub-0.0.3
+    app.kubernetes.io/instance: gonuts-pub
+    app.kubernetes.io/version: "0.0.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pub
+      app.kubernetes.io/instance: gonuts-pub
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pub
+        app.kubernetes.io/instance: gonuts-pub
+    spec:
+      containers:
+        - name: pub
+          image: "vishalbiyani/nats-pub"
+          imagePullPolicy: Always
+          command: ["/app"]
+          args: ["-s", "nats://xx.yy.xxx.yy:4222", "-d", "500", "Test"]
+      nodeSelector:
+        kubernetes.io/role: agent
+        kubernetes.io/os: linux
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Equal
+        value: azure
+      - key: node.kubernetes.io/network-unavailable
+        operator: Exists

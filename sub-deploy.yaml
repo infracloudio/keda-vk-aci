@@ -1,0 +1,40 @@
+---
+# Source: sub/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gonuts-sub
+  labels:
+    app.kubernetes.io/name: sub
+    helm.sh/chart: sub-0.0.3
+    app.kubernetes.io/instance: gonuts-sub
+    app.kubernetes.io/version: "0.0.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sub
+      app.kubernetes.io/instance: gonuts-sub
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sub
+        app.kubernetes.io/instance: gonuts-sub
+    spec:
+      containers:
+        - name: sub
+          image: "vishalbiyani/nats-sub"
+          imagePullPolicy: Always
+          command: ["/app"]
+          args: ["-d", "5000", "-s", "nats://xx.yy.xxx.yy:4222","--durable","ImDurable", "--qgroup", "grp1", "Test"]
+      nodeSelector:
+        kubernetes.io/role: agent
+        kubernetes.io/os: linux
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Equal
+        value: azure
+      - key: node.kubernetes.io/network-unavailable
+        operator: Exists

@@ -1,0 +1,28 @@
+replicas: 1
+
+image:
+  repository: nats-streaming
+  tag: 0.16.2
+  pullPolicy: IfNotPresent
+
+service:
+  name: nats-streaming
+  type: LoadBalancer
+  clientPort: 4222
+  monitorPort: 8222
+
+persistence:
+  local:
+    enabled: true
+    path: /tmp
+    capacity: 1Gi
+    accessMode: ReadWriteOnce
+    reclaimPolicy: Recycle
+
+resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

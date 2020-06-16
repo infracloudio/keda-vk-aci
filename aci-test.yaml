@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helloworld
+spec:
+  containers:
+  - image: vishalbiyani/nats-sub
+    imagePullPolicy: Always
+    name: helloworld
+    command: ["/app"]
+    args: ["-d", "5000", "-s", "nats://20.43.168.240:4222","--durable","ImDurable", "--qgroup", "grp1", "Test"]
+    resources:
+      requests:
+        memory: 1G
+        cpu: 1
+    ports:
+    - containerPort: 80
+      name: http
+      protocol: TCP
+    - containerPort: 443
+      name: https
+  dnsPolicy: ClusterFirst
+  dnsConfig:
+    options:
+    - name: ndots
+      value: "5"
+    searches:
+    - default.svc.cluster.local
+    - svc.cluster.local
+    - cluster.local
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/os: linux
+    type: virtual-kubelet
+  tolerations:
+  - key: virtual-kubelet.io/provider
+    operator: Equal
+    value: azure
+  - key: node.kubernetes.io/network-unavailable
+    operator: Exists
