@@ -1,6 +1,8 @@
-# keda-vk-aci
+# MagicScaling: Keda & Virtual Kubelet
 
-Magicscaling event pipelines with Keda and & Virtual Kubelet
+Magicscaling event pipelines with Keda and & Virtual Kubelet - a talk given at [CCDays](). 
+Video Link: https://www.youtube.com/watch?v=3ii722dr_K0
+The presentation: https://docs.google.com/presentation/d/e/2PACX-1vQ8pmEpbuFPKcfRGcRQ17VfF9W7W3H0Lq5kXq9Yy1NvctbkDz6yFv2O10DUg07ocOxhKzAqEz-4nGRg/pub?start=false&loop=false&delayms=3000
 
 Table of Contents
 =================
